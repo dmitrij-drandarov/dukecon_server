@@ -93,7 +93,7 @@
                 <groupId>com.buschmais.jqassistant.scm</groupId>
                 <artifactId>jqassistant-maven-plugin</artifactId>
                 <version>1.1.2</version>
-                <extensions>true</extensions>
+				<extensions>true</extensions>
                 <executions>
                     <execution>
                         <goals>
@@ -102,9 +102,19 @@
                         </goals>
                         <configuration>
                             <failOnViolations>true</failOnViolations>
+							 <reportProperties>
+                                <graphml.report.directory>${session.executionRootDirectory}/target/graphml</graphml.report.directory>
+                            </reportProperties>
                         </configuration>
                     </execution>
                 </executions>
+				<dependencies>
+					<dependency>
+						<groupId>com.buschmais.jqassistant.plugin</groupId>
+						<artifactId>jqassistant.plugin.graphml</artifactId>
+						<version>1.1.2</version>
+					</dependency>
+				</dependencies>
             </plugin>
         </plugins>
     </build>
