@@ -1,0 +1,25 @@
+[[structure:Default]]
+[role=group,includesConcepts="structure:ComponentDependencies.graphml"]
+== Structural Rules And Reports
+
+The following GraphML reports are created:
+
+- <<structure:ComponentDependencies.graphml>>
+
+=== Reports
+
+TIP: GraphML reports may be viewed using http://www.yworks.com/en/products/yfiles/yed/[yEd]. After opening a file you
+should apply a layout, e.g. "Layout->Hierarchical".
+
+
+[[structure:ComponentDependencies.graphml]]
+[source,cypher,role=concept,requiresConcepts="spring:Component"]
+.Dependencies between Spring Components.
+----
+MATCH
+  (component:Spring:Component)
+OPTIONAL MATCH
+  (component)-[dependsOn:DEPENDS_ON]->(:Spring:Component)  
+RETURN
+  component, dependsOn
+----
