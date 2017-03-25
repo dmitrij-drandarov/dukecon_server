@@ -1,0 +1,45 @@
+-
+  id: jl2016
+  internalId: 499959
+  conference: javaland
+  year: 2016
+  talksUri:
+    eventsData: javaland-2016.raw
+    speakersData: javaland-speaker-2016.raw
+  talksUriEncoding: ISO-8859-1
+  url: http://${conference}.dukecon.org/${year}
+  homeUrl: http://www.javaland.eu
+  name: JavaLand 2016
+  startDate: 2016-03-08
+  endDate: 2016-03-10
+  extractorClass: org.dukecon.server.adapter.doag.DoagDataExtractor
+  rawDataMapperClass: org.dukecon.server.adapter.doag.DoagJsonMapper
+-
+  id: hc2016
+  conference: herbstcampus
+  year: 2016
+  talksUri: herbstcampus-2016/herbstcampus_2016_veranstaltungen_20160826.csv
+  url: https://herbstcampus.dukecon.org/2016
+  name: Herbstcampus 2016
+  homeTitle: Herbstcampus
+  homeUrl: http://www.herbstcampus.de/
+  startDate: 2016-08-30
+  endDate: 2016-09-01
+  extractorClass: org.dukecon.server.adapter.heise.HeiseDataExtractor
+  rawDataMapperClass: org.dukecon.server.adapter.doag.DoagJsonMapper
+-
+  id: apacheconeu2016
+  internalId:
+  conference: apachecon
+  year: eu2016
+  talksUri:
+    conferenceData: https://${conferenceId}.sched.org/api/site/sync?api_key=${conferenceApiKey}
+    eventsData: https://${conferenceId}.sched.org/api/session/list?api_key=${conferenceApiKey}&custom_data=Y&format=json
+  backupUri: apacheconeu2016-2017-backup.raw
+  url: http://apachecon.dukecon.org/${year}
+  homeUrl: apacheconeu2016.sched.org
+  name: ApacheCon Europe 2016
+  startDate: 2016-11-16
+  endDate: 2016-11-18
+  extractorClass: org.dukecon.server.adapter.sched.SchedDataExtractor
+  rawDataMapperClass: org.dukecon.server.adapter.sched.SchedJsonMapper

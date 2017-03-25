@@ -1,26 +1,18 @@
 package org.dukecon.server.favorite
 
 import groovy.util.logging.Slf4j
-import org.dukecon.DukeConServerApplication
+import org.dukecon.server.conference.AbstractDukeConSpec
 import org.dukecon.server.favorites.Preference
 import org.dukecon.server.favorites.PreferencesRepository
-import org.springframework.boot.test.IntegrationTest
-import org.springframework.boot.test.SpringApplicationContextLoader
 import org.springframework.dao.DataIntegrityViolationException
-import org.springframework.test.context.ContextConfiguration
-import org.springframework.test.context.web.WebAppConfiguration
-import spock.lang.Specification
 
 import javax.inject.Inject
 
 /**
  * @author Gerd Aschemann, http://aschemann.net, @GerdAschemann
  */
-@ContextConfiguration(loader = SpringApplicationContextLoader, classes = DukeConServerApplication)
-@WebAppConfiguration
-@IntegrationTest(["server.port=0"])
 @Slf4j
-class FavoritesRepositorySpec extends Specification {
+class FavoritesRepositorySpec extends AbstractDukeConSpec {
     @Inject
     PreferencesRepository preferencesRepository
 
@@ -51,5 +43,20 @@ class FavoritesRepositorySpec extends Specification {
         then:
             DataIntegrityViolationException e = thrown()
             log.debug ("Expected exception '{}' was thrown", e.message)
+    }
+
+    void "test all favorites per event"() {
+        when:
+            preferencesRepository.save(new Preference (principalId : "0815", eventId: "004", version : 1))
+            preferencesRepository.save(new Preference (principalId : "0815", eventId: "005", version : 1))
+            preferencesRepository.save(new Preference (principalId : "4711", eventId: "005", version : 1))
+        and:
+            def events = preferencesRepository.allFavoritesPerEvent()
+        then:
+            assert events.size() >= 2
+            assert events.find {it.first() == '004'} == ['004', 1] as Object[]
+            assert events.find {it.first() == '004'}.first().class == String
+            assert events.find {it.first() == '004'}.last().class == Long
+            assert events.find {it.first() == '005'} == ['005', 2] as Object[]
     }
 }

@@ -13,9 +13,10 @@ import java.util.Map;
 @Data
 @Builder
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class Location {
+public class Location implements Identifyable {
     private String id;
     private Integer order;
     private Map<String, String> names = new HashMap<>();
     private String icon;
+    private Integer capacity;
 }

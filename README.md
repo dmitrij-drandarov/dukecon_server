@@ -1,46 +1,56 @@
-# dukecon_server
+# DukeCon Server
 
 ## Build & Dependency Status
 
 * [![Build Status](https://travis-ci.org/dukecon/dukecon_server.svg?branch=master)](https://travis-ci.org/dukecon/dukecon_server)
 
-* API: [![Dependency Status API](https://www.versioneye.com/user/projects/5552099d06c318a32a0000c5/badge.svg?style=flat)](https://www.versioneye.com/user/projects/5552099d06c318a32a0000c5)
-* Impl: [![Dependency Status Impl](https://www.versioneye.com/user/projects/555209a206c3183055000123/badge.svg?style=flat)](https://www.versioneye.com/user/projects/555209a206c3183055000123)
+* Reactor: [![Dependency Status](https://www.versioneye.com/user/projects/56f80143ed7236000ac3f3f1/badge.svg?style=flat)](https://www.versioneye.com/user/projects/56f80143ed7236000ac3f3f1)
+* API: [![Dependency Status](https://www.versioneye.com/user/projects/56f8034335630e0029db09a6/badge.svg?style=flat)](https://www.versioneye.com/user/projects/56f8034335630e0029db09a6)
+* Impl: [![Dependency Status](https://www.versioneye.com/user/projects/56f8034735630e003888ac53/badge.svg?style=flat)](https://www.versioneye.com/user/projects/56f8034735630e003888ac53)
 
 ## REST Services
 
 ### Talks
 
-Erreichbar über `/rest/conferences/499959`. Die Daten werden gecached.
+Accessible on `/rest/conferences/499959`.
+Data is being cached.
 
-Die Daten können über die URL `/rest/conferences/update/499959` aktualisiert werden. Hierfür ist eine Anmeldung und die Berechtigung `ROLE_ADMIN` erforderlich.
+Data can be updated with URI `/rest/conferences/update/499959`.
+Therefor an authenticated request with role `ROLE_ADMIN` is needed.
 
-### Meta-Informationen
+### Meta-Information
 
-### User-Preferences (Vortragsfavoriten)
+### User-Preferences (Talk favorites)
 
 ### User-Filter
-* Login über Keycloak
-* Datenablage je Principal in der Datenbank
-* Speichern:
-  * PUT
-  * http://localhost:8080/rest/filters
-  * Content-Type: application/json
-  * {"favourites":true,"levels":["Fortgeschritten"],"languages":["Englisch"],"tracks":["IDEs & Tools"],"locations":["Wintergarten", "Schauspielhaus"]}
-* Lesen:
-  * GET
-  * http://localhost:8080/rest/filters
+* Login with Keycloak
+* Filters will be persisted with a record of each principal in the DB
+* Write/save:
+  * HTTP method `PUT` 
+  * URL `http://localhost:8080/rest/filters`
+  * Content-Type: `application/json`
+  * Payload: `{"favourites":true,"levels":["Fortgeschritten"],"languages":["Englisch"],"tracks":["IDEs & Tools"],"locations":["Wintergarten", "Schauspielhaus"]}`
+* Read:
+  * HTTP method `GET`
+  * URL `http://localhost:8080/rest/filters`
 
 ## Health Check
 
-Für den Health Check bitte `/health` als URL aufrufen.
-Ein Status-Code 200 zeigt an, dass alles in Ordnung ist.
+Health check is available at `/health` URI.  
+HTTP status code `200` of the response tells you that everything is ok.
 
 ## DB
-* H2 im Development-Modus
-  * In-Memory (jdbc:h2:mem:testdb)
-  * DB-Konsole verfügbar: http://localhost:8080/develop/h2-console/
-* PostgreSQL im Profil "postgresql"
-  * Aktivieren mit -Dspring.profiles.active=postgresql
-  * zum Starten der Tests gegen die PostgreSQL-DB wird das Profil "postgresql-test" benötigt, damit die DB gelöscht wird (-Dspring.profiles.active=postgresql-test)
+* H2 in development mode
+  * In-Memory (`jdbc:h2:mem:testdb`)
+  * DB console: `http://localhost:8080/develop/h2-console/`
+* PostgreSQL with profile _"postgresql"_
+  * activate with `-Dspring.profiles.active=postgresql`
+  * to run the tests against the PostgreSQL db (and a previously reset of the db), you need the _"postgresql-test"_ profile (`-Dspring.profiles.active=postgresql-test`)
 
+## Dependency Management
+* Maven build fails in verify phase if declared dependencies are unused or used dependencies are undeclared
+  * mvn verify
+  * CI calls mvn deploy which includes verify
+  * the acutal goal is mvn dependency:analyze(-only) which may show warnings
+* dependency analyzing may cause problems because of Spring Boot starter dependencies
+  * configure <ignoredUnusedDeclaredDependencies> in pom.xml

@@ -35,7 +35,7 @@ public class StartPage extends AbstractPage {
     @FindBy(id = "loading")
     private WebElement loading;
 
-    @FindBy(css = ".talk-cell div")
+    @FindBy(css = ".talk-info .title")
     private List<WebElement> talks;
 
     @FindBy(name = "login")
@@ -50,14 +50,6 @@ public class StartPage extends AbstractPage {
     public void verify() {
         browser.manage().window().setSize(new Dimension(1024, 800));
         HasCapabilities c = (HasCapabilities) GrapheneContext.getContextFor(Default.class).getWebDriver();
-        if(c.getCapabilities().getBrowserName().equals("phantomjs")) {
-        /* clear local storage, otherwise the app will not work in PhantomJS (but it will
-         work in other browsers like Firefox.
-         TODO: find out why and fix in the app
-          */
-            ((JavascriptExecutor) browser).executeScript("localStorage.clear()");
-            browser.navigate().refresh();
-        }
 
         Graphene.waitModel().withTimeout(20, TimeUnit.SECONDS).until().element(loading).is().not().visible();
 

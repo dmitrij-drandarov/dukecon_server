@@ -33,13 +33,16 @@ class KeycloakConfigService {
 	
 	@Value("\${keycloak.resource:dukecon}")
 	private String resource
+
+	@Value("\${keycloak.useAccountManagement:false}")
+    private boolean useAccountManagement
 	
 	// TODO: Check if we could parameterize this?
 	@Value("\${preferences.rest.path}")
 	private String redirectUri
 
 	@GET
-	public Response getKeycloakConfig () {
+	Response getKeycloakConfig () {
         Map<String, String> keyCloakConfig = [
 			'realm': realm,
 			'realm-public-key': realmKey,
@@ -47,7 +50,8 @@ class KeycloakConfigService {
 			'ssl-required':	sslRequired,
 			'resource': resource,
 			'redirectUri': redirectUri,
-			]
+            'useAccountManagement': "${useAccountManagement}"
+        ]
 		log.debug ("keycloak.json = '{}'", keyCloakConfig)
 		
         return Response.ok().entity(keyCloakConfig).build()
