@@ -673,13 +673,13 @@
                             <goal>analyze</goal>
                         </goals>
                         <configuration>
-                            <!--
+						<!--
                             <store>
                                 <uri>bolt://localhost:7687</uri>
                                 <username>neo4j</username>
                                 <password>admin</password>
                             </store>
-                            -->
+						-->
                             <warnOnSeverity>MINOR</warnOnSeverity>
                             <failOnSeverity>MAJOR</failOnSeverity>
                             <scanIncludes>
@@ -697,7 +697,7 @@
                     <dependency>
                         <groupId>de.kontext-e.jqassistant.plugin</groupId>
                         <artifactId>jqassistant.plugin.git</artifactId>
-                        <version>1.1.4</version>
+                        <version>1.2.0</version>
                     </dependency>
                     <dependency>
 						<groupId>com.buschmais.jqassistant.plugin</groupId>
